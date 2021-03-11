@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using UtilityService.Data;
+using UtilityService.Services;
 
 namespace UtilityService
 {
@@ -29,6 +30,7 @@ namespace UtilityService
                 opt.UseInMemoryDatabase("TodoList");
             });
             services.AddControllers();
+            services.AddSingleton<ITodoService, TodoService>();
             services.AddSwaggerGen(c => {
 
                 c.SwaggerDoc("v1", new OpenApiInfo
