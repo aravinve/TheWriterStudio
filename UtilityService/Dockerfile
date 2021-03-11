@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["Writer/Writer.csproj", "Writer/"]
-RUN dotnet restore "Writer/Writer.csproj"
+COPY ["UtilityService/UtilityService.csproj", "UtilityService/"]
+RUN dotnet restore "UtilityService/UtilityService.csproj"
 COPY . .
-WORKDIR "/src/Writer"
-RUN dotnet build "Writer.csproj" -c Release -o /app/build
+WORKDIR "/src/UtilityService"
+RUN dotnet build "UtilityService.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Writer.csproj" -c Release -o /app/publish
+RUN dotnet publish "UtilityService.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Writer.dll"]
+ENTRYPOINT ["dotnet", "UtilityService.dll"]
